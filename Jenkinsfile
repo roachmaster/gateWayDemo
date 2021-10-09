@@ -3,5 +3,5 @@ node("kube2"){
     sh 'pwd'
     git 'git@github.com:roachmaster/gateWayDemo.git'
     sh "./gradlew clean build test"
-    sh "docker build --build-arg -t something ."
+    sh "docker build -t something ."
 }
