@@ -4,4 +4,5 @@ git 'git@github.com:roachmaster/gateWayDemo.git'
     sh 'pwd'
     git 'git@github.com:roachmaster/gateWayDemo.git'
     sh "./gradlew clean build test"
+
 }
