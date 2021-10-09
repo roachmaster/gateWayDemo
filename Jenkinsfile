@@ -1,2 +1,4 @@
-sh 'ls'
-sh 'pwd'
+node("kube2"){
+    sh 'ls'
+    sh 'pwd'
+}
