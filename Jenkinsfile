@@ -22,7 +22,12 @@ resources:
   - service.yml
 EOF"""
     }
-    /*
+    String tempString = sh(returnStdout: true, script: 'kubectl get secrets | grep -c mysql-pass')
+    if(!tempString.trim().equals("1")){
+        println("Adding Secret");
+        sh "kubectl apply -k k3s/"
+    }
+
     String tempString = sh(returnStdout: true, script: 'kubectl get deployments | grep -c gateway-demo')
     if(tempString.trim().equals("1")){
         println("removing gateway_demo deployment");
@@ -36,5 +41,4 @@ EOF"""
         sh "kubectl delete svc gateway-demo"
     }
     sh "kubectl apply -f k3s/service.yml"
-*/
 }
