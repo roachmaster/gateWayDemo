@@ -11,7 +11,7 @@ node("kube2"){
     }
     String tempString = sh(returnStdout: true, script: 'kubectl get deployments | grep -c gateway-demo')
     println("test: ${tempString}");
-    if(tempString.equals("1")){
+    if(tempString.trim().equals("1")){
         println("removing gateway_demo deployment");
         sh "kubectl delete gateway-demo"
     }
