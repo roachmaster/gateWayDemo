@@ -23,7 +23,7 @@ resources:
 EOF"""
     }
     String tempString = sh(returnStdout: true, script: 'kubectl get secrets | grep -c mysql-pass')
-    if(!tempString.trim().equals("1")){
+    if(tempString.trim().equals("0")){
         println("Adding Secret");
         sh "kubectl apply -k k3s/"
     }
