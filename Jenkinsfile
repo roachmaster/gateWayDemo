@@ -28,7 +28,7 @@ EOF"""
         sh "kubectl apply -k k3s/"
     }
 
-    String tempString = sh(returnStdout: true, script: 'kubectl get deployments | grep -c gateway-demo')
+    tempString = sh(returnStdout: true, script: 'kubectl get deployments | grep -c gateway-demo')
     if(tempString.trim().equals("1")){
         println("removing gateway_demo deployment");
         sh "kubectl delete deployment gateway-demo"
