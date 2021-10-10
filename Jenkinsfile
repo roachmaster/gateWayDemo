@@ -14,7 +14,7 @@ node("kube2"){
         tempString = sh(returnStatus: true, script: 'kubectl get secrets | grep -c mysql-pass')
         if(tempString.trim().equals("1")){
             println("Adding Secret");
-            sh "kubectl create secret generic mysql-pass --from-literal=name=${credPw}"
+            sh "kubectl create secret generic mysql-pass --from-literal=password=${credPw}"
         }
     }
     tempString = sh(returnStatus: true, script: 'kubectl get deployments | grep -c gateway-demo')
