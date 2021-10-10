@@ -8,6 +8,7 @@ spec:
   type: NodePort
   ports:
     - port: 8080
+      nodePort: 30715
       protocol: TCP
       name: gateway-demo
   selector:

@@ -21,5 +21,6 @@ node("kube2"){
         println("removing gateway_demo svc");
         sh "kubectl delete svc gateway-demo"
     }
-    sh "kubectl apply -f k3s/service.yml "
+    sh "kubectl apply -f k3s/service.yml"
+
 }
