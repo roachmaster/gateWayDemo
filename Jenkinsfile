@@ -13,7 +13,7 @@ node("kube2"){
     println("test: ${tempString}");
     if(tempString.trim().equals("1")){
         println("removing gateway_demo deployment");
-        sh "kubectl delete gateway-demo"
+        sh "kubectl delete deployment gateway-demo"
     }
     sh "kubectl create -f k3s/deployment.yml"
 }
