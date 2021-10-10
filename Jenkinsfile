@@ -24,20 +24,20 @@ EOF"""
     }
     String tempString = sh(returnStatus: true, script: 'kubectl get secrets | grep -c mysql-pass')
     sh "echo test"
-    if(tempString.trim().equals("-1")){
+    if(tempString.trim().equals("0")){
         println("Adding Secret");
         sh "kubectl apply -k k3s/"
     }
 
-    tempString = sh(returnStdout: true, script: 'kubectl get deployments | grep -c gateway-demo')
-    if(tempString.trim().equals("1")){
+    tempString = sh(returnStatus: true, script: 'kubectl get deployments | grep -c gateway-demo')
+    if(!tempString.trim().equals("0")){
         println("removing gateway_demo deployment");
         sh "kubectl delete deployment gateway-demo"
     }
     sh "kubectl create -f k3s/deployment.yml"
 
-    tempString = sh(returnStdout: true, script: 'kubectl get svc | grep -c gateway-demo')
-    if(tempString.trim().equals("1")){
+    tempString = sh(returnStatus: true, script: 'kubectl get svc | grep -c gateway-demo')
+    if(!tempString.trim().equals("0")){
         println("removing gateway_demo svc");
         sh "kubectl delete svc gateway-demo"
     }
