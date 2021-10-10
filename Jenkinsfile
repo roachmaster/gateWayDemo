@@ -9,26 +9,14 @@ node("kube2"){
         sh "docker push ${DOCKER_USERNAME}/gateway_demo:0.0.1-SNAPSHOT"
         sh "docker rmi ${DOCKER_USERNAME}/gateway_demo:0.0.1-SNAPSHOT"
     }
+    String tempString;
     withCredentials([usernamePassword(credentialsId: '8047ae57-cfa7-4ee1-86aa-be906b124593', passwordVariable: 'credPw', usernameVariable: 'credName')]) {
-
-    sh """cat<<EOF > k3s/kustomization.yml
-secretGenerator:
-- name: mysql-pass
-  literals:
-  - password=${credPw}
-resources:
-  - pi-mariadb.yml
-  - deployment.yml
-  - service.yml
-EOF"""
+        tempString = sh(returnStatus: true, script: 'kubectl get secrets | grep -c mysql-pass')
+        if(tempString.trim().equals("1")){
+            println("Adding Secret");
+            sh "kubectl create secret generic mysql-pass --from-literal=name=${credPw}"
+        }
     }
-    String tempString = sh(returnStatus: true, script: 'kubectl get secrets | grep -c mysql-pass')
-    sh "echo test $tempString"
-    if(tempString.trim().equals("1")){
-        println("Adding Secret");
-        sh "kubectl apply -k k3s/"
-    }
-
     tempString = sh(returnStatus: true, script: 'kubectl get deployments | grep -c gateway-demo')
     if(!tempString.trim().equals("1")){
         println("removing gateway_demo deployment");
