@@ -9,5 +9,5 @@ node("kube2"){
         sh "docker push ${DOCKER_USERNAME}/gateway_demo:0.0.1-SNAPSHOT"
         sh "docker rmi ${DOCKER_USERNAME}/gateway_demo:0.0.1-SNAPSHOT"
     }
-
+    sh "kubectl create -f k3s/deployment.yaml"
 }
