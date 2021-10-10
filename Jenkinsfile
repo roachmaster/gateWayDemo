@@ -35,6 +35,11 @@ node("kube2"){
 
     tempString = sh(returnStatus: true, script: 'kubectl get deployments | grep -c pi-mariadb')
     if(tempString.trim().equals("1")){
+        tempString = sh(returnStatus: true, script: 'kubectl get pvc | grep -c mariadb-pv-claim')
+        if(!tempString.trim().equals("1")){
+            println("removing gateway_demo svc");
+            sh "kubectl delete pvc mariadb-pv-claim"
+        }
         println("Adding pi-mariadb deployment");
         sh "kubectl create -f k3s/pi-mariadb.yml"
     }
