@@ -9,7 +9,7 @@ node("kube2"){
         sh "docker push ${DOCKER_USERNAME}/gateway_demo:0.0.1-SNAPSHOT"
         sh "docker rmi ${DOCKER_USERNAME}/gateway_demo:0.0.1-SNAPSHOT"
     }
-    def tempString = sh(returnStdout: true, script: 'kubectl get deployments | grep -c gateway-demo')
+    String tempString = sh(returnStdout: true, script: 'kubectl get deployments | grep -c gateway-demo')
     println("test: ${tempString}");
     if(tempString.equals("1")){
         println("removing gateway_demo deployment");
