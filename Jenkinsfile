@@ -10,10 +10,16 @@ node("kube2"){
         sh "docker rmi ${DOCKER_USERNAME}/gateway_demo:0.0.1-SNAPSHOT"
     }
     String tempString = sh(returnStdout: true, script: 'kubectl get deployments | grep -c gateway-demo')
-    println("test: ${tempString}");
     if(tempString.trim().equals("1")){
         println("removing gateway_demo deployment");
         sh "kubectl delete deployment gateway-demo"
     }
     sh "kubectl create -f k3s/deployment.yml"
+
+    tempString = sh(returnStdout: true, script: 'kubectl get svc | grep -c gateway-demo')
+    if(tempString.trim().equals("1")){
+        println("removing gateway_demo svc");
+        sh "kubectl delete svc gateway-demo"
+    }
+    sh "kubectl apply -f k3s/service.yml "
 }
