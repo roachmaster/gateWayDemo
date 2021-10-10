@@ -11,7 +11,7 @@ node("kube2"){
     }
     withCredentials([usernamePassword(credentialsId: '8047ae57-cfa7-4ee1-86aa-be906b124593', passwordVariable: 'credPw', usernameVariable: 'credName')]) {
 
-    sh "cat<<EOF > k3s/kustomization.yml
+    sh """cat<<EOF > k3s/kustomization.yml
 secretGenerator:
 - name: mysql-pass
   literals:
@@ -20,7 +20,7 @@ resources:
   - pi-mariadb.yml
   - deployment.yml
   - service.yml
-EOF"
+EOF"""
     }
     /*
     String tempString = sh(returnStdout: true, script: 'kubectl get deployments | grep -c gateway-demo')
