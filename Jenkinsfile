@@ -9,6 +9,7 @@ node("kube2"){
         sh "docker push ${DOCKER_USERNAME}/gateway_demo:0.0.1-SNAPSHOT"
         sh "docker rmi ${DOCKER_USERNAME}/gateway_demo:0.0.1-SNAPSHOT"
     }
+
     String tempString;
     withCredentials([usernamePassword(credentialsId: '8047ae57-cfa7-4ee1-86aa-be906b124593', passwordVariable: 'credPw', usernameVariable: 'credName')]) {
         tempString = sh(returnStatus: true, script: 'kubectl get secrets | grep -c mysql-pass')
@@ -17,9 +18,10 @@ node("kube2"){
             sh "kubectl create secret generic mysql-pass --from-literal=password=${credPw}"
         }
     }
+
     tempString = sh(returnStatus: true, script: 'kubectl get deployments | grep -c gateway-demo')
     if(!tempString.trim().equals("1")){
-        println("removing gateway_demo deployment");
+        println("Removing gateway_demo deployment");
         sh "kubectl delete deployment gateway-demo"
     }
     sh "kubectl create -f k3s/deployment.yml"
@@ -30,4 +32,10 @@ node("kube2"){
         sh "kubectl delete svc gateway-demo"
     }
     sh "kubectl apply -f k3s/service.yml"
+
+    tempString = sh(returnStatus: true, script: 'kubectl get deployments | grep -c pi-mariadb')
+    if(tempString.trim().equals("1")){
+        println("Adding pi-mariadb deployment");
+        sh "kubectl create -f k3s/pi-mariadb.yml"
+    }
 }
