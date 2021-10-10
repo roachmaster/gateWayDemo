@@ -22,7 +22,7 @@ resources:
   - service.yml
 EOF"""
     }
-    String tempString = sh(returnStdout: true, script: 'kubectl get secrets | grep -c mysql-pass || -1')
+    String tempString = sh(returnStatus: true, script: 'kubectl get secrets | grep -c mysql-pass')
     sh "echo test"
     if(tempString.trim().equals("-1")){
         println("Adding Secret");
