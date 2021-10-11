@@ -9,7 +9,7 @@ spec:
   ports:
     - port: 3306
       nodePort: 30306
-      name: gateway-demo
+      name: pi-mariadb
   selector:
     app: pi
     tier: mariadb
