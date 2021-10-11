@@ -28,7 +28,7 @@ node("kube2"){
 
     tempString = sh(returnStatus: true, script: 'kubectl get svc | grep -c gateway-demo')
     if(!tempString.trim().equals("1")){
-        println("removing gateway_demo svc");
+        println("Removing gateway_demo svc");
         sh "kubectl delete svc gateway-demo"
     }
     sh "kubectl apply -f k3s/service.yml"
@@ -37,12 +37,12 @@ node("kube2"){
     if(tempString.trim().equals("1")){
         tempString = sh(returnStatus: true, script: 'kubectl get pvc | grep -c mariadb-pv-claim')
         if(!tempString.trim().equals("1")){
-            println("removing gateway_demo svc");
+            println("Removing gateway_demo svc");
             sh "kubectl delete pvc mariadb-pv-claim"
         }
         tempString = sh(returnStatus: true, script: 'kubectl get svc | grep -c pi-mariadb')
         if(!tempString.trim().equals("1")){
-            println("removing pi-mariadb svc");
+            println("Removing pi-mariadb svc");
             sh "kubectl delete svc pi-mariadb"
         }
         println("Adding pi-mariadb deployment");
