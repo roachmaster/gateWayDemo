@@ -48,6 +48,13 @@ spec:
         - image: jsurf/rpi-mariadb
           name: mariadb
           env:
+            - name: MYSQL_USER
+              value: pi
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pass
+                  key: password
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
