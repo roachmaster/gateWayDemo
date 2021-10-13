@@ -2,7 +2,6 @@ node("kube2"){
     sh 'ls'
     sh 'pwd'
     git 'git@github.com:roachmaster/gateWayDemo.git'
-
     withCredentials([usernamePassword(credentialsId: '87e61f11-079d-4052-b083-ea5859f0f85b', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
         withCredentials([usernamePassword(credentialsId: '8047ae57-cfa7-4ee1-86aa-be906b124593', passwordVariable: 'credPw', usernameVariable: 'credName')]) {
             sh "export SPRING_DATASOURCE_PASSWORD=${credPw}; ./gradlew clean build test"
