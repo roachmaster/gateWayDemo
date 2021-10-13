@@ -15,7 +15,7 @@ spec:
       containers:
         - name: gateway-demo
           image: leonardorocha1990/gateway_demo:0.0.1-SNAPSHOT
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
