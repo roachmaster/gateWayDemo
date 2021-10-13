@@ -2,9 +2,10 @@ node("kube2"){
     sh 'ls'
     sh 'pwd'
     git 'git@github.com:roachmaster/gateWayDemo.git'
-    sh "./gradlew clean build test --args=\"--spring.datasource.password=${credPw}\""
+
     withCredentials([usernamePassword(credentialsId: '87e61f11-079d-4052-b083-ea5859f0f85b', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
         withCredentials([usernamePassword(credentialsId: '8047ae57-cfa7-4ee1-86aa-be906b124593', passwordVariable: 'credPw', usernameVariable: 'credName')]) {
+            sh "./gradlew clean build test --args=\"--spring.datasource.password=${credPw}\""
             sh "docker build --build-arg spring.datasource.password=${credPw} -t ${DOCKER_USERNAME}/gateway_demo:0.0.1-SNAPSHOT ."
         }
         sh "docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}"
