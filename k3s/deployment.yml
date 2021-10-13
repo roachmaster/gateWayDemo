@@ -21,7 +21,7 @@ spec:
           env:
             - name: PI_DB_HOST
               value: pi-mariadb
-            - name: PI_DB_PASSWORD
+            - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mysql-pass
